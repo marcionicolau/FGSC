@@ -5,26 +5,26 @@
 # http://shiny.rstudio.com
 #
 
-library(shiny)
-
 shinyUI(fluidPage(
-
-  # Application title
-  titlePanel("Old Faithful Geyser Data"),
-
-  # Sidebar with a slider input for number of bins
+  title = 'Examples of DataTables',
   sidebarLayout(
     sidebarPanel(
-      sliderInput("bins",
-                  "Number of bins:",
-                  min = 1,
-                  max = 50,
-                  value = 30)
+      conditionalPanel(
+        'input.view === "maps"', h1('Hello')
+        # checkboxGroupInput('show_vars', 'Columns in diamonds to show:',
+        #                    names(diamonds), selected = names(diamonds))
+      ),
+      conditionalPanel(
+        'input.view === "fgsc"',
+        helpText('Display 5 records by default.')
+      )
     ),
-
-    # Show a plot of the generated distribution
     mainPanel(
-      plotOutput("distPlot")
+      tabsetPanel(
+        id = 'view',
+        tabPanel('maps', h1('Maps')),
+        tabPanel('fgsc', DT::dataTableOutput('mytable3'))
+      )
     )
   )
 ))
